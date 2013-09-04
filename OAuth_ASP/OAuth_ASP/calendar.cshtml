@@ -1,0 +1,43 @@
+﻿@{
+  Page.Title = "Calendar";
+  Layout = "~/_SiteLayout.cshtml";
+}
+<script src="calendar.js"></script>
+<div>
+  Access Token: <input id="token" type="text" />
+  <hr />
+  <form id="getCalendars" method="get" action="https://www.googleapis.com/calendar/v3/users/me/calendarList">
+    <input type="hidden" name="access_token" />
+    <input type="submit" value="Get Calendar List" />
+  </form>
+
+  <hr />
+  Calendar ID: <input type="text" id="getCalID" />
+  <form id="getCalendar" method="get" action="https://www.googleapis.com/calendar/v3/calendars/">
+    <input type="hidden" name="access_token" />
+    <input type="submit" value="Get Calendar" />
+  </form>
+
+  <hr />
+  Calendar ID: <input type="text" id="getEventsCalID" />
+  <form id="getEvents" method="get" action="https://www.googleapis.com/calendar/v3/calendars/">
+    <input type="hidden" name="access_token" />
+    <input type="submit" value="Get Events" />
+  </form>
+
+  <hr />
+  Calendar ID: <input type="text" id="addEventCalID" />
+  <form id="addEvent" method="get" action="https://www.googleapis.com/calendar/v3/calendars/">
+    <input type="hidden" name="access_token" />
+    Start: <input type="text" name="start" /><br />
+    End: <input type="text" name="end" /><br />
+    <input type="submit" value="Add Event" />
+  </form>
+
+
+</div>
+
+<hr />
+<div id="data">
+
+</div>

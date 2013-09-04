@@ -1,0 +1,83 @@
+﻿@{
+    Page.Title = "Login";
+    Layout = "~/_SiteLayout.cshtml";
+
+    var clientID = "780082496750.apps.googleusercontent.com";
+    var clientSecret = "EzplRHeeDJOiHsnv8V062Sud";
+    var redirectURI = "http://localhost:50133/login.cshtml";
+
+    var PAGE_LOAD = 0;
+    var AUTH_CODE_RECEIVED = 1;
+    var NO_AUTH_CODE = 2;
+  
+    var mode = PAGE_LOAD;
+    var code = "";
+
+    code = Request.QueryString["code"];
+    
+    if (code != null) {
+      if (code != "") {
+        mode = AUTH_CODE_RECEIVED;
+        /*
+        var req = (HttpWebRequest)WebRequest.Create("https://accounts.google.com/o/oauth2/token");
+        req.Method = "POST";
+        //req.Accept = "application/json";
+        req.ContentType = "application/x-www-form-urlencoded";
+        req.UserAgent = ".NET OAuth Test Client";
+        req.Host = "accounts.google.com";
+        //req.Date = DateTime.Now;
+
+        var data = "code=" + code + "&client_id=" + clientID + "&client_secret=" + clientSecret + "&redirect_uri=" + redirectURI + "&grant_type=authorization_code";
+        req.ContentLength = data.Length;
+
+        //req.Credentials = CredentialCache.DefaultCredentials;
+          
+        var writer = new StreamWriter(req.GetRequestStream());
+        writer.Write(data);
+        writer.Close();
+
+        var success = true;
+        HttpWebResponse response = null;
+        try {
+          response = (HttpWebResponse)req.GetResponse();
+        }
+        catch (WebException ex) {
+          var error = ex.Response;
+          success = false;
+        }
+          
+        if (success) {
+          var tmp = response.ContentLength;
+        }
+          */
+      }
+      else {
+        mode = NO_AUTH_CODE;
+      }
+    }
+}
+
+  <div>
+      @{
+        if (mode == PAGE_LOAD) {
+          <a href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=780082496750.apps.googleusercontent.com&redirect_uri=http://localhost:50133/login.cshtml&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2fauth%2fcalendar&approval_prompt=force&access_type=offline">Log in with Google</a>
+        }
+        else if (mode == AUTH_CODE_RECEIVED) {
+          <form method="post" action="https://accounts.google.com/o/oauth2/token" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="client_id" value="@clientID" />
+            <input type="hidden" name="client_secret" value="@clientSecret" />
+            Authorization Code<input type="text" name="code" value="@code" />
+            <input type="hidden" name="grant_type" value="authorization_code" />
+            <input type="hidden" name="redirect_uri" value="@redirectURI" />
+            <input type="submit" value="Get Token" />
+          </form>
+        }
+        else if (mode == NO_AUTH_CODE) {
+          <p>The code is empty</p>
+        }
+        
+        if (IsPost) {
+          <p>Data was posted here.</p>
+        }
+      }
+  </div>
